@@ -27,10 +27,13 @@ export class Navbar {
   saveMsg       = signal('');
   saveError     = signal('');
 
-  profileName    = '';
-  profileEmail   = '';
-  profileContact = '';
-  profilePassword = '';
+  profileName           = '';
+  profileEmail          = '';
+  profileContact        = '';
+  profileNewPassword    = '';
+  profileConfirmPassword = '';
+  showNewPassword    = signal(false);
+  showConfirmPassword = signal(false);
 
   get userName() { return this.authSvc.currentUser()?.name ?? ''; }
   get userEmail() { return this.authSvc.currentUser()?.email ?? ''; }
@@ -68,7 +71,10 @@ export class Navbar {
     this.dropdownOpen.set(false);
     this.saveMsg.set('');
     this.saveError.set('');
-    this.profilePassword = '';
+    this.profileNewPassword    = '';
+    this.profileConfirmPassword = '';
+    this.showNewPassword.set(false);
+    this.showConfirmPassword.set(false);
     const u = this.authSvc.currentUser();
     this.profileName    = u?.name ?? '';
     this.profileEmail   = u?.email ?? '';
@@ -92,8 +98,18 @@ export class Navbar {
     this.saveError.set('');
   }
 
+  get passwordMismatch(): boolean {
+    return !!(this.profileNewPassword && this.profileConfirmPassword &&
+              this.profileNewPassword !== this.profileConfirmPassword);
+  }
+
   saveProfile() {
-    if (!this.profileName.trim() || !this.profileEmail.trim() || !this.profilePassword.trim()) return;
+    if (!this.profileName.trim()) return;
+    const newPwd = this.profileNewPassword.trim();
+    if (newPwd && newPwd !== this.profileConfirmPassword.trim()) {
+      this.saveError.set('Passwords do not match.');
+      return;
+    }
     this.saving.set(true);
     this.saveMsg.set('');
     this.saveError.set('');
@@ -103,12 +119,13 @@ export class Navbar {
       email:         this.profileEmail.trim(),
       contactNumber: this.profileContact.trim(),
       role:          u?.role ?? 'ROLE_GUEST',
-      password:      this.profilePassword.trim()
+      password:      newPwd
     }).subscribe({
       next: () => {
         this.saving.set(false);
-        this.saveMsg.set('Profile updated successfully.');
-        this.profilePassword = '';
+        this.saveMsg.set(newPwd ? 'Profile and password updated successfully.' : 'Profile updated successfully.');
+        this.profileNewPassword    = '';
+        this.profileConfirmPassword = '';
         setTimeout(() => this.saveMsg.set(''), 3000);
       },
       error: (e: any) => {

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
+import { noAuthGuard } from './core/guards/no-auth.guard';
 
 export const routes: Routes = [
   // ── Landing page (public, no auth required) ──────────────────
@@ -15,11 +16,23 @@ export const routes: Routes = [
   // ── Auth ──────────────────────────────────────────────────────
   {
     path: 'login',
+    canActivate: [noAuthGuard],
     loadComponent: () => import('./features/auth/login/login').then(m => m.Login)
   },
   {
     path: 'register',
+    canActivate: [noAuthGuard],
     loadComponent: () => import('./features/auth/register/register').then(m => m.Register)
+  },
+  {
+    path: 'forgot-password',
+    canActivate: [noAuthGuard],
+    loadComponent: () => import('./features/auth/forgot-password/forgot-password').then(m => m.ForgotPassword)
+  },
+  {
+    path: 'reset-password',
+    canActivate: [noAuthGuard],
+    loadComponent: () => import('./features/auth/reset-password/reset-password').then(m => m.ResetPassword)
   },
 
   // ── Guest / User ─────────────────────────────────────────────
@@ -94,8 +107,5 @@ export const routes: Routes = [
     ]
   },
 
-  {
-    path: '**',
-    loadComponent: () => import('./features/not-found/not-found').then(m => m.NotFound)
-  }
+  { path: '**', redirectTo: '/login' }
 ];

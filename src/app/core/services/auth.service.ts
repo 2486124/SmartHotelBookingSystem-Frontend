@@ -32,6 +32,10 @@ export class AuthService {
     return this.http.post(`${this.base}/api/auth/forgot-password`, { email }, { responseType: 'text' });
   }
 
+  resetPassword(token: string, newPassword: string): Observable<string> {
+    return this.http.post(`${this.base}/api/auth/reset-password`, { token, newPassword }, { responseType: 'text' });
+  }
+
   logout(): void {
     localStorage.removeItem('hv_token');
     localStorage.removeItem('hv_user');
@@ -40,7 +44,18 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this._user() && !!localStorage.getItem('hv_token');
+    return !!this._user() && this.isTokenValid();
+  }
+
+  isTokenValid(): boolean {
+    const token = localStorage.getItem('hv_token');
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
   }
 
   getToken(): string | null {
