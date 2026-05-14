@@ -11,6 +11,7 @@ import { BookingService } from '../../../core/services/booking.service';
 import { ReviewService } from '../../../core/services/review.service';
 import { HotelService } from '../../../core/services/hotel.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../shared/services/toast.service';
 import { Booking } from '../../../core/models/booking.model';
 
 interface BookingUI extends Booking {
@@ -38,6 +39,7 @@ export class MyBookings implements OnInit {
   private reviewSvc  = inject(ReviewService);
   private hotelSvc   = inject(HotelService);
   private auth       = inject(AuthService);
+  private toast      = inject(ToastService);
 
   current      = signal<BookingUI[]>([]);
   previous     = signal<BookingUI[]>([]);
@@ -115,7 +117,11 @@ export class MyBookings implements OnInit {
     this.pendingCancel.set(null);
     this.cancellingId.set(b.bookingId);
     this.bookingSvc.cancelBooking(b.bookingId).subscribe({
-      next: () => { this.cancellingId.set(null); this.load(); },
+      next: () => {
+        this.cancellingId.set(null);
+        this.toast.info('Booking cancelled. If a refund is applicable, it will be processed within 5–7 business days.');
+        this.load();
+      },
       error: () => { this.cancellingId.set(null); }
     });
   }

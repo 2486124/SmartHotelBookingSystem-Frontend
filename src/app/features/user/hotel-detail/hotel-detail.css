@@ -80,7 +80,7 @@
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.07em;
-  color: #c8960c;
+  color: #1a237e;
 }
 .filter-item .form-control {
   padding: 8px 12px;
@@ -92,6 +92,40 @@
 }
 .filter-item .form-control:focus {
   border-color: #1a237e;
+}
+
+/* ── Filter inputs: blue-white theme override ─────────────────
+   Uses a dedicated .filter-input class to avoid global
+   .form-control specificity conflicts.                        */
+.filter-input {
+  height: 40px !important;
+  padding: 8px 12px !important;
+  font-size: 0.88rem !important;
+  font-family: inherit !important;
+  color: #1a1a2e !important;
+  background: #ffffff !important;
+  border: 1.5px solid #c8cef0 !important;
+  border-radius: 8px !important;
+  outline: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  box-shadow: none;
+}
+.filter-input:hover:not(:focus) {
+  border-color: #8892cc !important;
+}
+.filter-input:focus {
+  border-color: #1a237e !important;
+  box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.12) !important;
+  background: #fff !important;
+}
+/* Tint the native calendar picker icon navy */
+input.filter-input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  cursor: pointer;
+  filter: invert(18%) sepia(80%) saturate(600%) hue-rotate(210deg);
+}
+input.filter-input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 

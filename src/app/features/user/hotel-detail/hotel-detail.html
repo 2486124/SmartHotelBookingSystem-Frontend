@@ -26,7 +26,7 @@
     <div class="filter-bar container">
       <div class="filter-item">
         <label>ROOM TYPE</label>
-        <select class="form-control" [(ngModel)]="roomType">
+        <select class="form-control filter-input" [(ngModel)]="roomType">
           <option value="">All Suites & Rooms</option>
           @for (t of roomTypes(); track t) {
             <option [value]="t">{{ t }}</option>
@@ -35,11 +35,11 @@
       </div>
       <div class="filter-item">
         <label>CHECK-IN DATE</label>
-        <input type="date" class="form-control" [(ngModel)]="checkIn" [min]="minDate">
+        <input type="date" class="form-control filter-input" [(ngModel)]="checkIn" [min]="minDate" (change)="onCheckInChange()">
       </div>
       <div class="filter-item">
         <label>CHECK-OUT DATE</label>
-        <input type="date" class="form-control" [(ngModel)]="checkOut" [min]="checkIn || minDate">
+        <input type="date" class="form-control filter-input" [(ngModel)]="checkOut" [min]="minCheckOut">
       </div>
       <button class="btn btn-primary" (click)="updateSearch()">Update Search</button>
     </div>

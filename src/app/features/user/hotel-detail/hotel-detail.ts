@@ -11,6 +11,7 @@ import { ReviewService } from '../../../core/services/review.service';
 import { LoyaltyService } from '../../../core/services/loyalty.service';
 import { RazorpayService, PaymentParams } from '../../../core/services/razorpay.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../shared/services/toast.service';
 import { HotelResponse, RoomResponse } from '../../../core/models/hotel.model';
 import { ReviewResponseDTO } from '../../../core/models/review.model';
 import { BookingConfirmResponse, PaymentMethod } from '../../../core/models/booking.model';
@@ -46,6 +47,7 @@ export class HotelDetail implements OnInit {
   private loyaltySvc = inject(LoyaltyService);
   private razorSvc   = inject(RazorpayService);
   private auth       = inject(AuthService);
+  private toast      = inject(ToastService);
 
   hotel       = signal<HotelResponse | null>(null);
   rooms       = signal<RoomResponse[]>([]);
@@ -70,11 +72,12 @@ export class HotelDetail implements OnInit {
     this.hotelId = Number(this.route.snapshot.paramMap.get('id'));
 
     // Set default dates first — needed before the availability call below
-    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-    const defCheckOut = new Date(tomorrow); defCheckOut.setDate(tomorrow.getDate() + 3);
-    this.checkIn  = tomorrow.toISOString().split('T')[0];
+    const today    = new Date();
+    const tomorrow = new Date(); tomorrow.setDate(today.getDate() + 1);
+    const defCheckOut = new Date(); defCheckOut.setDate(today.getDate() + 4);
+    this.checkIn  = today.toISOString().split('T')[0];
     this.checkOut = defCheckOut.toISOString().split('T')[0];
-    this.minDate  = tomorrow.toISOString().split('T')[0];
+    this.minDate  = today.toISOString().split('T')[0];
 
     this.hotelSvc.getHotelById(this.hotelId).subscribe(h => {
       this.hotel.set(h);
@@ -123,6 +126,10 @@ export class HotelDetail implements OnInit {
 
   updateSearch() {
     if (this.checkIn && this.checkOut) {
+      if (this.checkOut <= this.checkIn) {
+        this.toast.warning('Check-out date must be after check-in date.');
+        return;
+      }
       this.hotelSvc.getAvailableRooms(this.hotelId, this.checkIn, this.checkOut, this.roomType || undefined)
         .subscribe(r => this.rooms.set(r));
     } else {
@@ -130,6 +137,25 @@ export class HotelDetail implements OnInit {
         this.roomType ? this.allRooms().filter(r => r.type === this.roomType) : this.allRooms()
       );
     }
+  }
+
+  private addDays(dateStr: string, days: number): string {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const result = new Date(y, m - 1, d + days); // local date — no UTC shift
+    const mm = String(result.getMonth() + 1).padStart(2, '0');
+    const dd = String(result.getDate()).padStart(2, '0');
+    return `${result.getFullYear()}-${mm}-${dd}`;
+  }
+
+  get minCheckOut(): string {
+    return this.checkIn ? this.addDays(this.checkIn, 1) : this.minDate;
+  }
+
+  onCheckInChange() {
+    if (this.checkOut && this.checkOut <= this.checkIn) {
+      this.checkOut = this.addDays(this.checkIn, 1);
+    }
+    this.updateSearch();
   }
 
   previewNights(): number {
