@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TitleCasePipe } from '@angular/common';
+import { TitleCasePipe, DatePipe } from '@angular/common';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Navbar } from '../../../shared/components/navbar/navbar';
@@ -29,11 +29,10 @@ const PREV_PAGE_SIZE    = 5;
 
 @Component({
   selector: 'app-my-bookings',
-  imports: [FormsModule, RouterLink, TitleCasePipe, Navbar, Footer, StarRating],
+  imports: [FormsModule, RouterLink, TitleCasePipe, DatePipe, Navbar, Footer, StarRating],
   templateUrl: './my-bookings.html',
   styleUrl: './my-bookings.css'
 })
-
 export class MyBookings implements OnInit {
   private bookingSvc = inject(BookingService);
   private reviewSvc  = inject(ReviewService);

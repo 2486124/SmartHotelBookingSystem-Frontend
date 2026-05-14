@@ -44,6 +44,12 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
                     {{ b.roomType }}
                   </div>
+                  @if (b.createdAt) {
+                    <div class="booking-detail booking-booked-on">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      Booked on {{ b.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+                    </div>
+                  }
                   <div class="booking-status-row">
                     <span class="status-chip" [class]="b.status.toLowerCase()">{{ b.status }}</span>
                   </div>
@@ -105,6 +111,12 @@
                         {{ b.checkInDate }} — {{ b.checkOutDate }}
                       </span>
                       <span class="prev-id-chip">{{ formatId(b.bookingId) }}</span>
+                      @if (b.createdAt) {
+                        <span class="prev-detail-chip booked-on-chip">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          {{ b.createdAt | date:'dd MMM yyyy' }}
+                        </span>
+                      }
                     </div>
 
                     <!-- Review-done badge -->

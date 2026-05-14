@@ -178,6 +178,10 @@
 .amount-val { font-weight: 700; color: #1a1a2e; }
 .amount-na  { color: #b0b0c8; }
 
+/* Booked on */
+.booked-on-val  { display: block; font-size: 0.85rem; color: #1a1a2e; font-weight: 500; }
+.booked-on-time { display: block; font-size: 0.75rem; color: #9090a8; margin-top: 2px; }
+
 /* Status chips */
 .status-chip {
   display: inline-block;

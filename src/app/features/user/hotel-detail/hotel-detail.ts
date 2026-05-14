@@ -172,7 +172,8 @@ export class HotelDetail implements OnInit {
 
     const nights   = this.previewNights();
     const redeemed = this.redeemPts && this.loyaltyBal() >= 300;
-    const amount   = Number(room.price) * nights;
+    const base     = Number(room.price) * nights;
+    const amount   = redeemed ? +(base * 0.9).toFixed(2) : base;
 
     const params: PaymentParams = {
       userId:        user.id,

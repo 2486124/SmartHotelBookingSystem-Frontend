@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DecimalPipe, TitleCasePipe } from '@angular/common';
+import { DecimalPipe, TitleCasePipe, DatePipe } from '@angular/common';
 import { Navbar } from '../../../shared/components/navbar/navbar';
 import { Footer } from '../../../shared/components/footer/footer';
 import { HotelService } from '../../../core/services/hotel.service';
@@ -12,7 +12,7 @@ const PAGE_SIZE = 8;
 
 @Component({
   selector: 'app-manager-bookings',
-  imports: [FormsModule, DecimalPipe, TitleCasePipe, Navbar, Footer],
+  imports: [FormsModule, DecimalPipe, TitleCasePipe, DatePipe, Navbar, Footer],
   templateUrl: './manager-bookings.html',
   styleUrl: './manager-bookings.css'
 })

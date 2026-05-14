@@ -10,6 +10,7 @@ export interface Booking {
   checkOutDate: string;
   status: BookingStatus;
   paymentId?: number;
+  createdAt?: string;
   // enriched by backend (hotel bookings endpoint)
   userName?: string;
   totalAmount?: number;

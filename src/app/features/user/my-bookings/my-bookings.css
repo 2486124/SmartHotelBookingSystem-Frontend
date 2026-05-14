@@ -127,6 +127,11 @@
   flex-shrink: 0;
   color: #9090a8;
 }
+.booking-booked-on {
+  font-size: 0.78rem;
+  color: #9090a8;
+  font-style: italic;
+}
 
 .booking-status-row {
   margin: 4px 0;
@@ -238,6 +243,7 @@
   border-radius: 20px;
 }
 .prev-detail-chip svg { color: #9090a8; flex-shrink: 0; }
+.booked-on-chip { color: #9090a8; font-style: italic; }
 
 .prev-id-chip {
   font-size: 0.72rem;

@@ -64,6 +64,7 @@
               <th>GUEST</th>
               <th>ROOM TYPE</th>
               <th>DATES</th>
+              <th>BOOKED ON</th>
               <th>TOTAL PAID</th>
               <th>STATUS</th>
               <th>ACTION</th>
@@ -93,6 +94,15 @@
                     <span class="date-arrow">→</span>
                     <span>{{ b.checkOutDate }}</span>
                   </div>
+                </td>
+
+                <td>
+                  @if (b.createdAt) {
+                    <span class="booked-on-val">{{ b.createdAt | date:'dd MMM yyyy' }}</span>
+                    <span class="booked-on-time">{{ b.createdAt | date:'hh:mm a' }}</span>
+                  } @else {
+                    <span class="amount-na">—</span>
+                  }
                 </td>
 
                 <td>
