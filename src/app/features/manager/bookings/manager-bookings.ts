@@ -110,7 +110,10 @@ export class ManagerBookings implements OnInit {
   doCheckIn(b: Booking) {
     this.actionLoadingId.set(b.bookingId);
     this.bookingSvc.checkIn(b.bookingId).subscribe({
-      next: () => { this.actionLoadingId.set(null); this.loadBookings(this.hotelId()); },
+      next: () => {
+        this.actionLoadingId.set(null);
+        this.updateBookingStatus(b.bookingId, 'CHECKED_IN');
+      },
       error: () => this.actionLoadingId.set(null)
     });
   }
@@ -118,9 +121,21 @@ export class ManagerBookings implements OnInit {
   doCheckOut(b: Booking) {
     this.actionLoadingId.set(b.bookingId);
     this.bookingSvc.checkOut(b.bookingId).subscribe({
-      next: () => { this.actionLoadingId.set(null); this.loadBookings(this.hotelId()); },
+      next: () => {
+        this.actionLoadingId.set(null);
+        this.updateBookingStatus(b.bookingId, 'CHECKED_OUT');
+      },
       error: () => this.actionLoadingId.set(null)
     });
+  }
+
+  private updateBookingStatus(bookingId: number, status: Booking['status']) {
+    const updated = this.allBookings().map(b =>
+      b.bookingId === bookingId ? { ...b, status } : b
+    );
+    this.allBookings.set(updated);
+    this.computeStats(updated);
+    this.onSearch(); // re-paginate with the updated list
   }
 
   roomType(b: Booking): string {

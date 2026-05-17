@@ -33,7 +33,7 @@ export class ManagerRooms implements OnInit {
   saving         = signal(false);
   uploadingImg   = signal(false);
   imgUploaded    = signal(false);
-  search    = '';   // plain property — compatible with ngModel / input binding
+  search    = '';   // plain property - compatible with ngModel / input binding
 
   occupied   = signal(0);
   available  = signal(0);

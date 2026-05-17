@@ -37,7 +37,7 @@ export class ManagerDashboard implements OnInit {
   showRegister = signal(false);
   registering  = signal(false);
 
-  // Registration form — plain properties (not signals, ngModel compatible)
+  // Registration form - plain properties (not signals, ngModel compatible)
   regName      = '';
   regLocation  = '';
   regImageUrl  = '';
@@ -60,7 +60,7 @@ export class ManagerDashboard implements OnInit {
   regImgUploaded   = signal(false);
   editImgUploaded  = signal(false);
 
-  // Amenity input — plain property
+  // Amenity input - plain property
   newAmenity = '';
 
   ngOnInit() {

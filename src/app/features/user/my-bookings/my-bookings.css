@@ -252,7 +252,7 @@
   letter-spacing: 0.04em;
 }
 
-/* Review area — full width below header */
+/* Review area - full width below header */
 .prev-review-area {
   margin-top: 16px;
   padding-top: 16px;
@@ -287,7 +287,7 @@
   gap: 10px;
 }
 
-/* Reviewed state — sits inside .prev-meta, beside the thumbnail */
+/* Reviewed state - sits inside .prev-meta, beside the thumbnail */
 .prev-review-done {
   display: inline-flex;
   align-items: center;

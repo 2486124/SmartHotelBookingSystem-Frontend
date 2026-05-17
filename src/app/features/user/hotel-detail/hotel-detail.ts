@@ -71,7 +71,7 @@ export class HotelDetail implements OnInit {
   ngOnInit() {
     this.hotelId = Number(this.route.snapshot.paramMap.get('id'));
 
-    // Set default dates first — needed before the availability call below
+    // Set default dates first - needed before the availability call below
     const today    = new Date();
     const tomorrow = new Date(); tomorrow.setDate(today.getDate() + 1);
     const defCheckOut = new Date(); defCheckOut.setDate(today.getDate() + 4);
@@ -84,11 +84,11 @@ export class HotelDetail implements OnInit {
       this.loading.set(false);
     });
 
-    // Load available rooms for default dates — feeds the aggregation
+    // Load available rooms for default dates - feeds the aggregation
     this.hotelSvc.getAvailableRooms(this.hotelId, this.checkIn, this.checkOut)
       .subscribe(r => this.rooms.set(r));
 
-    // allRooms = all rooms regardless of availability — used only for the type dropdown
+    // allRooms = all rooms regardless of availability - used only for the type dropdown
     this.hotelSvc.getRoomsForHotel(this.hotelId)
       .subscribe(r => this.allRooms.set(r));
 
@@ -141,7 +141,7 @@ export class HotelDetail implements OnInit {
 
   private addDays(dateStr: string, days: number): string {
     const [y, m, d] = dateStr.split('-').map(Number);
-    const result = new Date(y, m - 1, d + days); // local date — no UTC shift
+    const result = new Date(y, m - 1, d + days); // local date - no UTC shift
     const mm = String(result.getMonth() + 1).padStart(2, '0');
     const dd = String(result.getDate()).padStart(2, '0');
     return `${result.getFullYear()}-${mm}-${dd}`;
@@ -175,7 +175,7 @@ export class HotelDetail implements OnInit {
   pay(group: AggregatedRoom) {
     this.redeemPts = false;
     this.payError.set('');
-    // Use the first roomId from the group — all rooms here passed the availability filter
+    // Use the first roomId from the group - all rooms here passed the availability filter
     this.pendingRoom.set({
       roomId:       group.roomIds[0],
       type:         group.type,

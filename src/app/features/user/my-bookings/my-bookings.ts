@@ -48,12 +48,12 @@ export class MyBookings implements OnInit {
   error        = signal('');
   pendingCancel = signal<BookingUI | null>(null);
 
-  // Pagination — Current bookings
+  // Pagination - Current bookings
   currentPage       = signal(1);
   currentTotalPages = signal(1);
   pagedCurrent      = signal<BookingUI[]>([]);
 
-  // Pagination — Previous bookings
+  // Pagination - Previous bookings
   prevPage       = signal(1);
   prevTotalPages = signal(1);
   pagedPrevious  = signal<BookingUI[]>([]);

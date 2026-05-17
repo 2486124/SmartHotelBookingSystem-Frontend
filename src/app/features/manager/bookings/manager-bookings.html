@@ -101,7 +101,7 @@
                     <span class="booked-on-val">{{ b.createdAt | date:'dd MMM yyyy' }}</span>
                     <span class="booked-on-time">{{ b.createdAt | date:'hh:mm a' }}</span>
                   } @else {
-                    <span class="amount-na">—</span>
+                    <span class="amount-na">-</span>
                   }
                 </td>
 
@@ -109,7 +109,7 @@
                   @if (totalPaid(b); as amt) {
                     <span class="amount-val">₹{{ amt | number }}</span>
                   } @else {
-                    <span class="amount-na">—</span>
+                    <span class="amount-na">-</span>
                   }
                 </td>
 
@@ -135,7 +135,7 @@
                       @else { Check Out }
                     </button>
                   } @else {
-                    <span class="action-na">—</span>
+                    <span class="action-na">-</span>
                   }
                 </td>
               </tr>

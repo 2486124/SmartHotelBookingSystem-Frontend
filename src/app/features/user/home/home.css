@@ -409,7 +409,7 @@
   display: block;
 }
 
-/* Card: 50/50 split — image left, details right */
+/* Card: 50/50 split - image left, details right */
 .featured-card {
   display: grid;
   grid-template-columns: 1fr 1fr;

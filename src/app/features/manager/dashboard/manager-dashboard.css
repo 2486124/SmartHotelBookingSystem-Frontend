@@ -305,6 +305,92 @@
   to { transform: rotate(360deg); }
 }
 
+/* ── Property header card (identity + status merged) ────────── */
+.property-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #fff;
+  border: 1px solid #e4e4ef;
+  border-left: 4px solid #e4e4ef;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  transition: border-left-color 0.2s;
+}
+.property-card--pending { border-left-color: #c8960c; }
+.property-card--live    { border-left-color: #2e7d32; }
+
+.hotel-thumb {
+  width: 88px;
+  height: 88px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #e4e4ef;
+}
+
+.hotel-thumb-placeholder {
+  width: 88px;
+  height: 88px;
+  border-radius: 12px;
+  background: #1a237e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.property-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.identity-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #c8960c;
+}
+
+.hotel-identity-name {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hotel-identity-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  color: #6a6a8a;
+  margin-top: 2px;
+}
+
+.property-card-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.status-sub {
+  font-size: 0.75rem;
+  color: #9090a8;
+  max-width: 200px;
+  line-height: 1.4;
+}
+
 /* ── No-hotel empty state ─────────────────────────────────── */
 .no-hotel-state {
   display: flex;
@@ -335,50 +421,6 @@
   color: #6a6a8a;
   max-width: 380px;
   line-height: 1.6;
-}
-
-/* ── Approval status banner ───────────────────────────────── */
-.approval-banner {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 20px;
-  border-radius: 12px;
-  border-left: 4px solid transparent;
-  margin-bottom: 28px;
-}
-.approval-banner.pending {
-  background: #fff8e1;
-  border-left-color: #c8960c;
-}
-.approval-banner.approved {
-  background: #e8f5e9;
-  border-left-color: #2e7d32;
-}
-
-.appr-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.pending .appr-icon  { background: rgba(200,150,12,0.15); color: #c8960c; }
-.approved .appr-icon { background: rgba(46,125,50,0.15);  color: #2e7d32; }
-
-.appr-body { flex: 1; min-width: 0; }
-.appr-title {
-  font-size: 0.92rem;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-.pending .appr-title  { color: #8a6000; }
-.approved .appr-title { color: #1b5e20; }
-.appr-sub {
-  font-size: 0.8rem;
-  color: #6a6a8a;
 }
 
 .appr-chip {
@@ -690,8 +732,11 @@
   .panel-header { flex-direction: column; align-items: flex-start; }
   .add-amenity-row { flex-direction: column; width: 100%; }
   .add-amenity-row .form-control { width: 100%; }
-  .approval-banner { flex-wrap: wrap; gap: 10px; }
-  .appr-chip { margin-left: 0; }
+  .property-card { flex-wrap: wrap; gap: 14px; }
+  .hotel-thumb, .hotel-thumb-placeholder { width: 64px; height: 64px; }
+  .hotel-identity-name { font-size: 1.1rem; }
+  .property-card-status { align-items: flex-start; text-align: left; }
+  .status-sub { max-width: 100%; }
   .reg-modal { border-radius: 14px; }
   .reg-header { padding: 20px; }
   .reg-body { padding: 20px 20px 8px; }

@@ -43,32 +43,41 @@
       </div>
     } @else {
 
-      <!-- Approval status banner -->
-      @if (!hotel()!.approval) {
-        <div class="approval-banner pending">
-          <div class="appr-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <!-- Property header card (identity + approval status merged) -->
+      <div class="property-card" [class.property-card--pending]="!hotel()!.approval" [class.property-card--live]="hotel()!.approval">
+        @if (hotel()!.imageUrl) {
+          <img class="hotel-thumb" [src]="hotel()!.imageUrl" [alt]="hotel()!.name">
+        } @else {
+          <div class="hotel-thumb-placeholder">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
           </div>
-          <div class="appr-body">
-            <p class="appr-title">Pending Admin Approval</p>
-            <p class="appr-sub">Your property is under review. It won't be visible to guests until an admin approves it.</p>
+        }
+
+        <div class="property-card-body">
+          <p class="identity-label">YOUR PROPERTY</p>
+          <h2 class="hotel-identity-name">{{ hotel()!.name }}</h2>
+          <div class="hotel-identity-location">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            {{ hotel()!.location }}
           </div>
-          <span class="appr-chip pending-chip">PENDING</span>
         </div>
-      } @else {
-        <div class="approval-banner approved">
-          <div class="appr-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div class="appr-body">
-            <p class="appr-title">Hotel Live &amp; Approved</p>
-            <p class="appr-sub">Your property is visible to guests and accepting bookings.</p>
-          </div>
-          <span class="appr-chip live-chip">
-            <span class="live-dot"></span>LIVE
-          </span>
+
+        <div class="property-card-status">
+          @if (!hotel()!.approval) {
+            <span class="appr-chip pending-chip">PENDING REVIEW</span>
+            <p class="status-sub">Awaiting admin approval - not yet visible to guests.</p>
+          } @else {
+            <span class="appr-chip live-chip"><span class="live-dot"></span>LIVE</span>
+            <p class="status-sub">Visible to guests and accepting bookings.</p>
+          }
         </div>
-      }
+      </div>
 
       <!-- KPI cards -->
       <div class="kpi-grid">

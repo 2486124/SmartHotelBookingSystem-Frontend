@@ -17,7 +17,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
       if (!shouldSilence(err)) {
-        // Spring Boot error bodies sometimes arrive as a raw JSON string —
+        // Spring Boot error bodies sometimes arrive as a raw JSON string -
         // parse it first so we can pull out the `message` field cleanly.
         let body = err.error;
         if (typeof body === 'string') {

@@ -171,7 +171,7 @@
   box-shadow: 0 0 0 2.5px #1a237e;
 }
 
-/* Backdrop — covers the entire viewport when the dropdown is open.
+/* Backdrop - covers the entire viewport when the dropdown is open.
    Click on it closes the dropdown. z-index below the dropdown. */
 .dropdown-backdrop {
   position: fixed;
@@ -591,7 +591,7 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Nav links inside panel — full width, bigger tap area */
+  /* Nav links inside panel - full width, bigger tap area */
   .nav-links li { width: 100%; }
   .nav-links a {
     display: block;

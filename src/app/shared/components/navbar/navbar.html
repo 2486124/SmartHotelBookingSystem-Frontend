@@ -33,7 +33,7 @@
 
     <!-- Right actions -->
     <div class="nav-actions">
-      <!-- Hamburger — mobile only -->
+      <!-- Hamburger - mobile only -->
       <button class="hamburger" [class.is-open]="mobileMenuOpen()" (click)="toggleMobileMenu()" aria-label="Toggle menu">
         <span></span>
         <span></span>
@@ -53,7 +53,7 @@
         </div>
 
         @if (dropdownOpen()) {
-          <!-- Transparent backdrop — clicking anywhere outside the dropdown closes it -->
+          <!-- Transparent backdrop - clicking anywhere outside the dropdown closes it -->
           <div class="dropdown-backdrop" (click)="closeDropdownBackdrop()"></div>
           <div class="nav-dropdown"
             [style.top.px]="dropdownTop()"

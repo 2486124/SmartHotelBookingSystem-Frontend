@@ -5,7 +5,7 @@ import { noAuthGuard } from './core/guards/no-auth.guard';
 
 export const routes: Routes = [
   // ── Landing page (public, no auth required) ──────────────────
-  // pathMatch:'full' is mandatory — without it path:'' is a prefix
+  // pathMatch:'full' is mandatory - without it path:'' is a prefix
   // match that swallows every route since all URLs start with ''.
   {
     path: '',
