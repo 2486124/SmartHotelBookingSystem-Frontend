@@ -33,7 +33,7 @@
 
     <!-- Right actions -->
     <div class="nav-actions">
-      <!-- Hamburger - mobile only -->
+      <!-- Hamburger — mobile only -->
       <button class="hamburger" [class.is-open]="mobileMenuOpen()" (click)="toggleMobileMenu()" aria-label="Toggle menu">
         <span></span>
         <span></span>
@@ -53,7 +53,7 @@
         </div>
 
         @if (dropdownOpen()) {
-          <!-- Transparent backdrop - clicking anywhere outside the dropdown closes it -->
+          <!-- Transparent backdrop — clicking anywhere outside the dropdown closes it -->
           <div class="dropdown-backdrop" (click)="closeDropdownBackdrop()"></div>
           <div class="nav-dropdown"
             [style.top.px]="dropdownTop()"
@@ -127,7 +127,17 @@
             <input type="tel" [(ngModel)]="profileContact" placeholder="9876543210">
           </div>
           <div class="modal-field">
-            <label>New Password <span class="field-hint">Leave blank to keep current password</span></label>
+            <div class="label-row">
+              <label>New Password <span class="field-hint">Leave blank to keep current password</span></label>
+              <button type="button" class="pass-info-btn" (click)="showPassInfo.update(v => !v)" [class.active]="showPassInfo()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              </button>
+            </div>
+            @if (showPassInfo()) {
+              <div class="pass-info-box">
+                Password must contain: min 8 characters &middot; 1 uppercase letter &middot; 1 number &middot; 1 special character (!&#64;#$...)
+              </div>
+            }
             <div class="input-wrap">
               <input [type]="showNewPassword() ? 'text' : 'password'"
                      [(ngModel)]="profileNewPassword"

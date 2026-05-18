@@ -219,6 +219,44 @@
   }
 }
 
+/* ── Password info tooltip ───────────────────────────────────── */
+.label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pass-info-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #9090a8;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+  line-height: 1;
+}
+.pass-info-btn:hover,
+.pass-info-btn.active {
+  color: #1a237e;
+}
+
+.pass-info-box {
+  background: #eef0fb;
+  border-left: 3px solid #1a237e;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  color: #1a237e;
+  line-height: 1.5;
+  animation: fade-in 0.15s ease;
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ── Mobile ─────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .login-right { padding: 32px 20px; }

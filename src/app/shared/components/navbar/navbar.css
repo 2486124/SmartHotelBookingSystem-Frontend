@@ -171,7 +171,7 @@
   box-shadow: 0 0 0 2.5px #1a237e;
 }
 
-/* Backdrop - covers the entire viewport when the dropdown is open.
+/* Backdrop — covers the entire viewport when the dropdown is open.
    Click on it closes the dropdown. z-index below the dropdown. */
 .dropdown-backdrop {
   position: fixed;
@@ -417,6 +417,45 @@
   text-transform: none;
   letter-spacing: 0;
 }
+
+.label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pass-info-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #9090a8;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.pass-info-btn:hover,
+.pass-info-btn.active {
+  color: #1a237e;
+}
+
+.pass-info-box {
+  background: #eef0fb;
+  border-left: 3px solid #1a237e;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  color: #1a237e;
+  line-height: 1.5;
+  margin-top: 4px;
+  animation: fade-in-info 0.15s ease;
+}
+@keyframes fade-in-info {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 .modal-field input {
   height: 42px;
   border: 1.5px solid #e4e4ef;
@@ -591,7 +630,7 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Nav links inside panel - full width, bigger tap area */
+  /* Nav links inside panel — full width, bigger tap area */
   .nav-links li { width: 100%; }
   .nav-links a {
     display: block;

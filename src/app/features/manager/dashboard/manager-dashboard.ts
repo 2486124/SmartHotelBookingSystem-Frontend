@@ -15,50 +15,50 @@ import { HotelResponse } from '../../../core/models/hotel.model';
   selector: 'app-manager-dashboard',
   imports: [FormsModule, DecimalPipe, Navbar, Footer],
   templateUrl: './manager-dashboard.html',
-  styleUrl: './manager-dashboard.css'
+  styleUrl: './manager-dashboard.css',
 })
 export class ManagerDashboard implements OnInit {
-  private hotelSvc     = inject(HotelService);
-  private bookingSvc   = inject(BookingService);
-  private reviewSvc    = inject(ReviewService);
-  private toast        = inject(ToastService);
-  private imageUpload  = inject(ImageUploadService);
+  private hotelSvc = inject(HotelService);
+  private bookingSvc = inject(BookingService);
+  private reviewSvc = inject(ReviewService);
+  private toast = inject(ToastService);
+  private imageUpload = inject(ImageUploadService);
 
-  hotel          = signal<HotelResponse | null>(null);
-  bookingsCount  = signal(0);
+  hotel = signal<HotelResponse | null>(null);
+  bookingsCount = signal(0);
   pendingReviews = signal(0);
-  totalRooms     = signal(0);
-  rating         = signal(0);
-  amenityList    = signal<string[]>([]);
-  loading        = signal(true);
+  totalRooms = signal(0);
+  rating = signal(0);
+  amenityList = signal<string[]>([]);
+  loading = signal(true);
 
   // Hotel registration state
-  noHotel      = signal(false);
+  noHotel = signal(false);
   showRegister = signal(false);
-  registering  = signal(false);
+  registering = signal(false);
 
   // Registration form - plain properties (not signals, ngModel compatible)
-  regName      = '';
-  regLocation  = '';
-  regImageUrl  = '';
+  regName = '';
+  regLocation = '';
+  regImageUrl = '';
   regAmenities = '';
 
   // Edit hotel details state
   showEditHotel = signal(false);
-  savingEdit    = signal(false);
+  savingEdit = signal(false);
 
   // Delete hotel state
   showDeleteConfirm = signal(false);
-  deleting          = signal(false);
-  editName      = '';
-  editLocation  = '';
-  editImageUrl  = '';
+  deleting = signal(false);
+  editName = '';
+  editLocation = '';
+  editImageUrl = '';
 
   // Image upload state
-  uploadingRegImg  = signal(false);
+  uploadingRegImg = signal(false);
   uploadingEditImg = signal(false);
-  regImgUploaded   = signal(false);
-  editImgUploaded  = signal(false);
+  regImgUploaded = signal(false);
+  editImgUploaded = signal(false);
 
   // Amenity input - plain property
   newAmenity = '';
@@ -68,7 +68,12 @@ export class ManagerDashboard implements OnInit {
       next: (h) => {
         this.hotel.set(h);
         this.rating.set(h.rating);
-        this.amenityList.set((h.amenities || '').split(',').map(a => a.trim()).filter(Boolean));
+        this.amenityList.set(
+          (h.amenities || '')
+            .split(',')
+            .map((a) => a.trim())
+            .filter(Boolean),
+        );
         this.loading.set(false);
         this.loadKpis(h);
       },
@@ -78,20 +83,23 @@ export class ManagerDashboard implements OnInit {
           this.noHotel.set(true);
           this.showRegister.set(true);
         }
-      }
+      },
     });
   }
 
   private loadKpis(h: HotelResponse) {
-    this.bookingSvc.getBookingsForHotel(h.hotelId)
+    this.bookingSvc
+      .getBookingsForHotel(h.hotelId)
       .pipe(catchError(() => of([])))
-      .subscribe(b => this.bookingsCount.set(b.length));
-    this.hotelSvc.getRoomsForHotel(h.hotelId)
+      .subscribe((b) => this.bookingsCount.set(b.length));
+    this.hotelSvc
+      .getRoomsForHotel(h.hotelId)
       .pipe(catchError(() => of([])))
-      .subscribe(r => this.totalRooms.set(r.length));
-    this.reviewSvc.getHotelReviews(h.hotelId)
+      .subscribe((r) => this.totalRooms.set(r.length));
+    this.reviewSvc
+      .getHotelReviews(h.hotelId)
       .pipe(catchError(() => of([])))
-      .subscribe(r => this.pendingReviews.set(r.filter(rev => !rev.managerResponse).length));
+      .subscribe((r) => this.pendingReviews.set(r.filter((rev) => !rev.managerResponse).length));
   }
 
   openRegister() {
@@ -106,29 +114,36 @@ export class ManagerDashboard implements OnInit {
   registerHotel() {
     if (!this.regName.trim() || !this.regLocation.trim()) return;
     this.registering.set(true);
-    this.hotelSvc.createHotel({
-      name:      this.regName.trim(),
-      location:  this.regLocation.trim(),
-      imageUrl:  this.regImageUrl.trim(),
-      amenities: this.regAmenities.trim()
-    }).subscribe({
-      next: (h) => {
-        this.hotel.set(h);
-        this.rating.set(h.rating);
-        this.amenityList.set((h.amenities || '').split(',').map(a => a.trim()).filter(Boolean));
-        this.noHotel.set(false);
-        this.showRegister.set(false);
-        this.registering.set(false);
-        this.loadKpis(h);
-      },
-      error: () => this.registering.set(false)
-    });
+    this.hotelSvc
+      .createHotel({
+        name: this.regName.trim(),
+        location: this.regLocation.trim(),
+        imageUrl: this.regImageUrl.trim(),
+        amenities: this.regAmenities.trim(),
+      })
+      .subscribe({
+        next: (h) => {
+          this.hotel.set(h);
+          this.rating.set(h.rating);
+          this.amenityList.set(
+            (h.amenities || '')
+              .split(',')
+              .map((a) => a.trim())
+              .filter(Boolean),
+          );
+          this.noHotel.set(false);
+          this.showRegister.set(false);
+          this.registering.set(false);
+          this.loadKpis(h);
+        },
+        error: () => this.registering.set(false),
+      });
   }
 
   openEditHotel() {
     const h = this.hotel();
     if (!h) return;
-    this.editName     = h.name;
+    this.editName = h.name;
     this.editLocation = h.location;
     this.editImageUrl = h.imageUrl || '';
     this.editImgUploaded.set(false);
@@ -141,8 +156,15 @@ export class ManagerDashboard implements OnInit {
     this.uploadingRegImg.set(true);
     this.regImgUploaded.set(false);
     this.imageUpload.upload(file, '/hotels').subscribe({
-      next: (url) => { this.regImageUrl = url; this.uploadingRegImg.set(false); this.regImgUploaded.set(true); },
-      error: () => { this.uploadingRegImg.set(false); this.toast.error('Image upload failed.'); }
+      next: (url) => {
+        this.regImageUrl = url;
+        this.uploadingRegImg.set(false);
+        this.regImgUploaded.set(true);
+      },
+      error: () => {
+        this.uploadingRegImg.set(false);
+        this.toast.error('Image upload failed.');
+      },
     });
   }
 
@@ -152,8 +174,15 @@ export class ManagerDashboard implements OnInit {
     this.uploadingEditImg.set(true);
     this.editImgUploaded.set(false);
     this.imageUpload.upload(file, '/hotels').subscribe({
-      next: (url) => { this.editImageUrl = url; this.uploadingEditImg.set(false); this.editImgUploaded.set(true); },
-      error: () => { this.uploadingEditImg.set(false); this.toast.error('Image upload failed.'); }
+      next: (url) => {
+        this.editImageUrl = url;
+        this.uploadingEditImg.set(false);
+        this.editImgUploaded.set(true);
+      },
+      error: () => {
+        this.uploadingEditImg.set(false);
+        this.toast.error('Image upload failed.');
+      },
     });
   }
 
@@ -162,10 +191,10 @@ export class ManagerDashboard implements OnInit {
     if (!h || !this.editName.trim() || !this.editLocation.trim()) return;
     this.savingEdit.set(true);
     const payload = {
-      name:      this.editName.trim(),
-      location:  this.editLocation.trim(),
-      imageUrl:  this.editImageUrl.trim(),
-      amenities: this.amenityList().join(', ')   // preserve current amenities
+      name: this.editName.trim(),
+      location: this.editLocation.trim(),
+      imageUrl: this.editImageUrl.trim(),
+      amenities: this.amenityList().join(', '), // preserve current amenities
     };
     this.hotelSvc.updateHotel(h.hotelId, payload).subscribe({
       next: (updated) => {
@@ -177,30 +206,35 @@ export class ManagerDashboard implements OnInit {
       error: () => {
         this.savingEdit.set(false);
         this.toast.error('Failed to update hotel details. Please try again.');
-      }
+      },
     });
   }
 
   addAmenity() {
     const a = this.newAmenity.trim();
     if (!a || this.amenityList().includes(a)) return;
-    this.amenityList.update(list => [...list, a]);
+    this.amenityList.update((list) => [...list, a]);
     this.newAmenity = '';
     this.saveAmenities();
   }
 
   removeAmenity(a: string) {
-    this.amenityList.update(list => list.filter(x => x !== a));
+    this.amenityList.update((list) => list.filter((x) => x !== a));
     this.saveAmenities();
   }
 
   saveAmenities() {
     const h = this.hotel();
     if (!h) return;
-    const updated = { name: h.name, location: h.location, imageUrl: h.imageUrl, amenities: this.amenityList().join(', ') };
+    const updated = {
+      name: h.name,
+      location: h.location,
+      imageUrl: h.imageUrl,
+      amenities: this.amenityList().join(', '),
+    };
     this.hotelSvc.updateHotel(h.hotelId, updated).subscribe({
       next: () => this.toast.success('Amenities saved.'),
-      error: () => this.toast.error('Failed to save amenities. Please try again.')
+      error: () => this.toast.error('Failed to save amenities. Please try again.'),
     });
   }
 
@@ -223,20 +257,39 @@ export class ManagerDashboard implements OnInit {
       error: () => {
         this.deleting.set(false);
         this.toast.error('Failed to delete hotel. Please try again.');
-      }
+      },
     });
   }
 
   amenityIcon(name: string): string {
     const n = name.toLowerCase();
-    if (n.includes('pool'))    return '🏊';
+    if (n.includes('pool')) return '🏊';
     if (n.includes('spa') || n.includes('wellness')) return '🧖';
-    if (n.includes('gym'))     return '🏋️';
-    if (n.includes('lounge') || n.includes('sky')) return '🍸';
+    if (n.includes('gym') || n.includes('fitness')) return '🏋️';
+    if (n.includes('lounge') || n.includes('sky') || n.includes('bar')) return '🍸';
     if (n.includes('dining') || n.includes('restaurant') || n.includes('gourmet')) return '🍽️';
-    if (n.includes('business')) return '💼';
+    if (n.includes('breakfast') || n.includes('buffet')) return '🥐';
+    if (n.includes('coffee') || n.includes('cafe')) return '☕';
+    if (n.includes('food') || n.includes('kitchen') || n.includes('catering')) return '🧑‍🍳';
+    if (n.includes('conference') || n.includes('meeting') || n.includes('boardroom')) return '🏛️';
+    if (n.includes('event') || n.includes('banquet') || n.includes('hall')) return '🎪';
+    if (n.includes('business') || n.includes('cowork')) return '💼';
+    if (n.includes('concierge') || n.includes('butler')) return '🛎️';
+    if (n.includes('laundry') || n.includes('dry clean')) return '👕';
+    if (n.includes('room service')) return '🛏️';
+    if (n.includes('airport') || n.includes('shuttle') || n.includes('transfer')) return '🚌';
     if (n.includes('parking') || n.includes('valet')) return '🅿️';
-    if (n.includes('wifi'))    return '📶';
+    if (n.includes('ev') || n.includes('electric')) return '⚡';
+    if (n.includes('wifi') || n.includes('internet')) return '📶';
+    if (n.includes('tv') || n.includes('entertainment')) return '📺';
+    if (n.includes('library') || n.includes('reading')) return '📚';
+    if (n.includes('kids') || n.includes('child') || n.includes('play')) return '🧸';
+    if (n.includes('pet')) return '🐾';
+    if (n.includes('garden') || n.includes('terrace') || n.includes('outdoor')) return '🌿';
+    if (n.includes('beach') || n.includes('ocean') || n.includes('sea')) return '🏖️';
+    if (n.includes('mountain') || n.includes('view') || n.includes('scenic')) return '🏔️';
+    if (n.includes('security') || n.includes('safe')) return '🔒';
+    if (n.includes('medical') || n.includes('doctor') || n.includes('health')) return '🏥';
     return '✨';
   }
 }

@@ -241,6 +241,31 @@
   border: 1px solid rgba(46, 125, 50, 0.2);
 }
 
+/* ── Password strength ───────────────────────────────────────── */
+.pass-strength-bar {
+  height: 3px;
+  background: #e4e4ef;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.pass-strength-fill {
+  height: 100%;
+  width: 100%;
+  background: #e4e4ef;
+  border-radius: 99px;
+  transition: background 0.3s;
+}
+.pass-strength-fill.strong {
+  background: #2e7d32;
+}
+
+.pass-hint {
+  font-size: 0.75rem;
+  color: #9090a8;
+  margin-top: 4px;
+}
+
 /* ── Mobile ─────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .login-right { padding: 32px 20px; }

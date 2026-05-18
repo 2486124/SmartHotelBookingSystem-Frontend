@@ -109,7 +109,13 @@
               }
             </button>
           </div>
-          @if (f.password.invalid && f.password.touched) { <span class="field-error">Password must be at least 6 characters.</span> }
+          <div class="pass-strength-bar">
+            <div class="pass-strength-fill" [class.strong]="passwordStrong"></div>
+          </div>
+          <p class="pass-hint">Min 8 chars &middot; 1 uppercase &middot; 1 number &middot; 1 special character (!&#64;#$...)</p>
+          @if (f.password.invalid && f.password.touched) {
+            <span class="field-error">Password must be min 8 characters with 1 uppercase, 1 number and 1 special character.</span>
+          }
         </div>
 
         <button type="submit" class="btn btn-primary btn-full btn-lg sign-btn" [disabled]="loading()">

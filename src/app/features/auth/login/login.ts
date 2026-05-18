@@ -15,8 +15,9 @@ export class Login {
   private auth  = inject(AuthService);
   private toast = inject(ToastService);
 
-  loading  = signal(false);
-  showPass = signal(false);
+  loading       = signal(false);
+  showPass      = signal(false);
+  showPassInfo  = signal(false);
 
   form = this.fb.group({
     email:    ['', [Validators.required, Validators.email]],

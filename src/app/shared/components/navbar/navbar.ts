@@ -32,8 +32,9 @@ export class Navbar {
   profileContact        = '';
   profileNewPassword    = '';
   profileConfirmPassword = '';
-  showNewPassword    = signal(false);
+  showNewPassword     = signal(false);
   showConfirmPassword = signal(false);
+  showPassInfo        = signal(false);
 
   get userName() { return this.authSvc.currentUser()?.name ?? ''; }
   get userEmail() { return this.authSvc.currentUser()?.email ?? ''; }

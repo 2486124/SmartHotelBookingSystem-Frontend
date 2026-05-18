@@ -20,12 +20,19 @@ export class Register {
   success  = signal('');
   showPass = signal(false);
 
+  private static readonly PASSWORD_PATTERN =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\[\]{};':"\\|,.<>/?`~]).{8,}$/;
+
   form = this.fb.group({
     name:          ['', Validators.required],
     email:         ['', [Validators.required, Validators.email]],
-    password:      ['', [Validators.required, Validators.minLength(6)]],
+    password:      ['', [Validators.required, Validators.pattern(Register.PASSWORD_PATTERN)]],
     contactNumber: ['', Validators.required]
   });
+
+  get passwordStrong(): boolean {
+    return Register.PASSWORD_PATTERN.test(this.f.password.value || '');
+  }
 
   setRole(role: 'ROLE_GUEST' | 'ROLE_HOTEL_MANAGER') { this.selectedRole.set(role); }
 
