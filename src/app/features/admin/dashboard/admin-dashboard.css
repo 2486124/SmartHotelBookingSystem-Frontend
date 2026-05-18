@@ -368,6 +368,9 @@
   .page-header h1 { font-size: 1.5rem; }
   .page-wrap { padding: 24px 0 40px; }
   .section-row { flex-direction: column; align-items: flex-start; }
+  .approval-actions { flex-direction: row; width: 100%; }
+  .approval-actions .btn-approve,
+  .approval-actions .btn-deny { flex: 1; justify-content: center; }
   .modal-actions { flex-direction: column; }
   .modal-actions .btn-cancel,
   .modal-actions .btn-confirm-delete { width: 100%; }

@@ -213,7 +213,8 @@
   background: #fff;
   border: 1px solid #e4e4ef;
   border-radius: 14px;
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .hv-table {
