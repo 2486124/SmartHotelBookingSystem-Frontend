@@ -103,6 +103,10 @@ export const routes: Routes = [
       {
         path: 'reviews',
         loadComponent: () => import('./features/admin/reviews/admin-reviews').then(m => m.AdminReviews)
+      },
+      {
+        path: 'bookings',
+        loadComponent: () => import('./features/admin/manage-bookings/admin-bookings').then(m => m.AdminBookings)
       }
     ]
   },

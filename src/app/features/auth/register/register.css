@@ -219,11 +219,6 @@
   display: inline-block;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 .alert {
   padding: 12px 14px;
   border-radius: 8px;

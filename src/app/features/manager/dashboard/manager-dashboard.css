@@ -1,8 +1,3 @@
-.page-wrap {
-  min-height: calc(100vh - 64px);
-  padding: 40px 0 60px;
-}
-
 .page-header {
   display: flex;
   align-items: center;
@@ -285,26 +280,6 @@
   color: #c62828;
 }
 
-.loading-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 300px;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(26, 35, 126, 0.2);
-  border-top-color: #1a237e;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 /* ── Property header card (identity + status merged) ────────── */
 .property-card {
   display: flex;
@@ -461,11 +436,6 @@
   padding: 16px;
   animation: fade-in 0.18s ease;
 }
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
 .reg-modal {
   background: #fff;
   border-radius: 20px;
@@ -475,11 +445,6 @@
   box-shadow: 0 24px 64px rgba(26, 35, 126, 0.2);
   animation: modal-up 0.22s ease;
 }
-@keyframes modal-up {
-  from { opacity: 0; transform: translateY(20px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
 .reg-header {
   background: #1a237e;
   padding: 24px 28px;
@@ -728,7 +693,6 @@
   .page-header h1 { font-size: 1.5rem; }
   .header-actions { width: 100%; }
   .btn-edit-hotel, .btn-delete-hotel { flex: 1; justify-content: center; }
-  .page-wrap { padding: 24px 0 40px; }
   .panel-header { flex-direction: column; align-items: flex-start; }
   .add-amenity-row { width: 100%; }
   .add-amenity-row .form-control { flex: 1; width: auto; min-width: 0; }

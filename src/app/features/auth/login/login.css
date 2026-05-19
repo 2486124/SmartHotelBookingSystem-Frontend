@@ -213,12 +213,6 @@
   display: inline-block;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* ── Password info tooltip ───────────────────────────────────── */
 .label-row {
   display: flex;

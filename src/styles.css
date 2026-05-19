@@ -6,7 +6,7 @@
 
 html, body {
   height: 100%;
-  font-family: "Outfit";
+  font-family: "Outfit", sans-serif;
   font-size: 16px;
   color: #1a1a2e;
   background: #f5f6fa;
@@ -65,9 +65,10 @@ h4 {
   padding: 0 24px;
 }
 
-.page-wrapper {
+.page-wrapper,
+.page-wrap {
   min-height: calc(100vh - 64px);
-  padding: 40px 0;
+  padding: 40px 0 60px;
 }
 
 .btn {
@@ -468,56 +469,63 @@ input::-webkit-contacts-auto-fill-button {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(10, 15, 80, 0.45);
+  backdrop-filter: blur(6px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  animation: fade-in 0.18s ease;
 }
-.modal-overlay .modal-box {
+.modal-box {
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 32px;
   width: 100%;
-  max-width: 520px;
-  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.13);
+  max-width: 500px;
+  box-shadow: 0 20px 60px rgba(26, 35, 126, 0.18);
   max-height: 90vh;
   overflow-y: auto;
+  animation: modal-up 0.22s ease;
 }
-.modal-overlay .modal-box .modal-header {
+.modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
 }
-.modal-overlay .modal-box .modal-header h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #1a237e;
+.modal-header h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a1a2e;
 }
-.modal-overlay .modal-box .modal-header .modal-close {
+.modal-close {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   border: none;
-  background: #f5f6fa;
+  background: #f0f0f8;
   color: #4a4a6a;
-  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background 0.15s;
 }
-.modal-overlay .modal-box .modal-header .modal-close:hover {
-  background: #e4e4ef;
+.modal-close:hover { background: #e4e4ef; }
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 8px;
 }
 
 .loading-overlay {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
+  min-height: 300px;
 }
 
 .spinner {
@@ -529,11 +537,87 @@ input::-webkit-contacts-auto-fill-button {
   animation: spin 0.7s linear infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.spinner-sm {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
 }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modal-up {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.empty-state {
+  padding: 48px;
+  text-align: center;
+  color: #9090a8;
+  background: #f8f8fc;
+  border-radius: 12px;
+}
+
+.status-chip {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.status-chip.confirmed    { background: rgba(46,125,50,0.1);   color: #2e7d32; }
+.status-chip.checked-in   { background: rgba(26,35,126,0.1);   color: #1a237e; }
+.status-chip.checked-out  { background: rgba(200,150,12,0.12); color: #c8960c; }
+.status-chip.cancelled    { background: rgba(198,40,40,0.1);   color: #c62828; }
+.status-chip.reviewed     { background: rgba(46,125,50,0.1);   color: #2e7d32; }
+.status-chip.not-reviewed { background: rgba(200,150,12,0.12); color: #c8960c; }
+.status-chip.completed    { background: rgba(46,125,50,0.1);   color: #2e7d32; }
+.status-chip.pending      { background: rgba(200,150,12,0.12); color: #c8960c; }
+.status-chip.live         { background: rgba(46,125,50,0.1);   color: #2e7d32; }
+
+.action-msg {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-top: 8px;
+}
+.action-msg.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid rgba(46,125,50,0.2);
+}
+.action-msg.error {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid rgba(198,40,40,0.2);
+}
+
+.btn-approve {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1.5px solid #c8e6c9;
+}
+.btn-approve:hover { background: #c8e6c9; }
+.btn-deny {
+  background: #ffebee;
+  color: #c62828;
+  border: 1.5px solid #ffcdd2;
+}
+.btn-deny:hover { background: #ffcdd2; }
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -558,5 +642,6 @@ input::-webkit-contacts-auto-fill-button {
   h2 { font-size: 1.3rem; }
   h3 { font-size: 1.1rem; }
   .container { padding: 0 16px; }
-  .page-wrapper { padding: 24px 0; }
+  .page-wrapper, .page-wrap { padding: 24px 0 40px; }
+  .modal-box { padding: 24px 20px; }
 }
