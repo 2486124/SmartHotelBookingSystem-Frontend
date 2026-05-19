@@ -87,7 +87,11 @@ export class ManageHotels implements OnInit {
         this.deleting.set(false);
         this.toast.success(`"${hotel.name}" has been deleted successfully.`);
       },
-      error: () => this.deleting.set(false)
+      error: () => {
+        this.deleting.set(false);
+        this.pendingDelete.set(null);
+        this.toast.error('Failed to delete hotel. Please try again.');
+      }
     });
   }
 

@@ -5,6 +5,7 @@ import { Navbar } from '../../../shared/components/navbar/navbar';
 import { Footer } from '../../../shared/components/footer/footer';
 import { HotelService } from '../../../core/services/hotel.service';
 import { BookingService } from '../../../core/services/booking.service';
+import { ToastService } from '../../../shared/services/toast.service';
 import { Booking } from '../../../core/models/booking.model';
 import { catchError, of } from 'rxjs';
 
@@ -19,6 +20,7 @@ const PAGE_SIZE = 8;
 export class ManagerBookings implements OnInit {
   private hotelSvc   = inject(HotelService);
   private bookingSvc = inject(BookingService);
+  private toast      = inject(ToastService);
 
   hotelId     = signal(0);
   allBookings = signal<Booking[]>([]);
@@ -113,8 +115,12 @@ export class ManagerBookings implements OnInit {
       next: () => {
         this.actionLoadingId.set(null);
         this.updateBookingStatus(b.bookingId, 'CHECKED_IN');
+        this.toast.success('Guest checked in successfully.');
       },
-      error: () => this.actionLoadingId.set(null)
+      error: () => {
+        this.actionLoadingId.set(null);
+        this.toast.error('Failed to check in. Please try again.');
+      }
     });
   }
 
@@ -124,8 +130,12 @@ export class ManagerBookings implements OnInit {
       next: () => {
         this.actionLoadingId.set(null);
         this.updateBookingStatus(b.bookingId, 'CHECKED_OUT');
+        this.toast.success('Guest checked out successfully.');
       },
-      error: () => this.actionLoadingId.set(null)
+      error: () => {
+        this.actionLoadingId.set(null);
+        this.toast.error('Failed to check out. Please try again.');
+      }
     });
   }
 
@@ -135,7 +145,7 @@ export class ManagerBookings implements OnInit {
     );
     this.allBookings.set(updated);
     this.computeStats(updated);
-    this.onSearch(); // re-paginate with the updated list
+    this.onSearch();
   }
 
   roomType(b: Booking): string {
@@ -148,7 +158,6 @@ export class ManagerBookings implements OnInit {
 
   totalPaid(b: Booking): number | null {
     if (b.totalAmount) return b.totalAmount;
-    // Fallback: compute from room price × nights
     const price = this.roomPriceMap.get(b.roomId);
     if (!price) return null;
     const nights = Math.max(1, Math.round(

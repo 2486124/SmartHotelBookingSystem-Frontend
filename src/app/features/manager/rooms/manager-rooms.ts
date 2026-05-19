@@ -121,8 +121,16 @@ export class ManagerRooms implements OnInit {
       ? this.hotelSvc.updateRoom(hid, editing.roomId, req)
       : this.hotelSvc.addRoom(hid, req);
     obs.subscribe({
-      next: () => { this.saving.set(false); this.showModal.set(false); this.loadRooms(hid); },
-      error: () => this.saving.set(false)
+      next: () => {
+        this.saving.set(false);
+        this.showModal.set(false);
+        this.loadRooms(hid);
+        this.toast.success(editing ? 'Room updated successfully.' : 'Room added successfully.');
+      },
+      error: () => {
+        this.saving.set(false);
+        this.toast.error('Failed to save room. Please try again.');
+      }
     });
   }
 

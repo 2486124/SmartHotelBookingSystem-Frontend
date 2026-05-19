@@ -122,7 +122,10 @@ export class MyBookings implements OnInit {
         this.toast.info('Booking cancelled. If a refund is applicable, it will be processed within 5–7 business days.');
         this.load();
       },
-      error: () => { this.cancellingId.set(null); }
+      error: () => {
+        this.cancellingId.set(null);
+        this.toast.error('Failed to cancel booking. Please try again.');
+      }
     });
   }
 
@@ -144,11 +147,13 @@ export class MyBookings implements OnInit {
         b.status           = 'REVIEWED';
         this.previous.update(list => [...list]);
         this.paginatePrev();
+        this.toast.success('Review submitted successfully!');
       },
       error: () => {
         b.reviewSubmitting = false;
         this.previous.update(list => [...list]);
         this.paginatePrev();
+        this.toast.error('Failed to submit review. Please try again.');
       }
     });
   }
@@ -167,6 +172,7 @@ export class MyBookings implements OnInit {
         b.reviewIgnoring = false;
         this.previous.update(list => [...list]);
         this.paginatePrev();
+        this.toast.error('Something went wrong. Please try again.');
       }
     });
   }

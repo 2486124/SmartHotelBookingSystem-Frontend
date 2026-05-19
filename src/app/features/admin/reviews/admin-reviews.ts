@@ -137,6 +137,7 @@ export class AdminReviews implements OnInit {
       error: () => {
         this.removing.set(false);
         this.pendingRemove.set(null);
+        this.toast.error('Failed to remove review. Please try again.');
       }
     });
   }

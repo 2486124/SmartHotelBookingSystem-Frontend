@@ -51,7 +51,7 @@ export class HotelDetail implements OnInit {
 
   hotel       = signal<HotelResponse | null>(null);
   rooms       = signal<RoomResponse[]>([]);
-  allRooms    = signal<RoomResponse[]>([]); // source of truth for the type dropdown
+  allRooms    = signal<RoomResponse[]>([]);
   reviews     = signal<ReviewResponseDTO[]>([]);
   loading        = signal(true);
   payingRoomId   = signal<number | null>(null);
@@ -71,7 +71,6 @@ export class HotelDetail implements OnInit {
   ngOnInit() {
     this.hotelId = Number(this.route.snapshot.paramMap.get('id'));
 
-    // Set default dates first - needed before the availability call below
     const today    = new Date();
     const tomorrow = new Date(); tomorrow.setDate(today.getDate() + 1);
     const defCheckOut = new Date(); defCheckOut.setDate(today.getDate() + 4);
@@ -84,11 +83,9 @@ export class HotelDetail implements OnInit {
       this.loading.set(false);
     });
 
-    // Load available rooms for default dates - feeds the aggregation
     this.hotelSvc.getAvailableRooms(this.hotelId, this.checkIn, this.checkOut)
       .subscribe(r => this.rooms.set(r));
 
-    // allRooms = all rooms regardless of availability - used only for the type dropdown
     this.hotelSvc.getRoomsForHotel(this.hotelId)
       .subscribe(r => this.allRooms.set(r));
 
@@ -124,24 +121,35 @@ export class HotelDetail implements OnInit {
     return [...groups.values()];
   }
 
-  updateSearch() {
+  updateSearch(showToast = false) {
     if (this.checkIn && this.checkOut) {
       if (this.checkOut <= this.checkIn) {
         this.toast.warning('Check-out date must be after check-in date.');
         return;
       }
       this.hotelSvc.getAvailableRooms(this.hotelId, this.checkIn, this.checkOut, this.roomType || undefined)
-        .subscribe(r => this.rooms.set(r));
+        .subscribe(r => {
+          this.rooms.set(r);
+          if (showToast) {
+            r.length > 0
+              ? this.toast.info(`${r.length} room(s) available for your selected dates.`)
+              : this.toast.warning('No rooms available for the selected dates or filters.');
+          }
+        });
     } else {
-      this.rooms.set(
-        this.roomType ? this.allRooms().filter(r => r.type === this.roomType) : this.allRooms()
-      );
+      const filtered = this.roomType ? this.allRooms().filter(r => r.type === this.roomType) : this.allRooms();
+      this.rooms.set(filtered);
+      if (showToast) {
+        filtered.length > 0
+          ? this.toast.info(`${filtered.length} room(s) found.`)
+          : this.toast.warning('No rooms match the selected filter.');
+      }
     }
   }
 
   private addDays(dateStr: string, days: number): string {
     const [y, m, d] = dateStr.split('-').map(Number);
-    const result = new Date(y, m - 1, d + days); // local date - no UTC shift
+    const result = new Date(y, m - 1, d + days);
     const mm = String(result.getMonth() + 1).padStart(2, '0');
     const dd = String(result.getDate()).padStart(2, '0');
     return `${result.getFullYear()}-${mm}-${dd}`;
@@ -175,7 +183,6 @@ export class HotelDetail implements OnInit {
   pay(group: AggregatedRoom) {
     this.redeemPts = false;
     this.payError.set('');
-    // Use the first roomId from the group - all rooms here passed the availability filter
     this.pendingRoom.set({
       roomId:       group.roomIds[0],
       type:         group.type,
@@ -225,6 +232,7 @@ export class HotelDetail implements OnInit {
           nights,
           redeemed
         });
+        this.toast.success('Booking confirmed! Your reservation is all set.');
       },
       error: (e) => {
         this.payingRoomId.set(null);

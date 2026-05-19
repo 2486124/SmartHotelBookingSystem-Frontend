@@ -135,8 +135,12 @@ export class ManagerDashboard implements OnInit {
           this.showRegister.set(false);
           this.registering.set(false);
           this.loadKpis(h);
+          this.toast.success('Hotel registered successfully. Awaiting admin approval.');
         },
-        error: () => this.registering.set(false),
+        error: () => {
+          this.registering.set(false);
+          this.toast.error('Failed to register hotel. Please try again.');
+        },
       });
   }
 
