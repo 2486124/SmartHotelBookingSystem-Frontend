@@ -4,7 +4,7 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ToastService } from '../../shared/services/toast.service';
 
-const SILENT_STATUSES = new Set([0, 404]);
+const SILENT_STATUSES = new Set([0, 401, 404]);
 
 const shouldSilence = (err: HttpErrorResponse) =>
   SILENT_STATUSES.has(err.status) ||

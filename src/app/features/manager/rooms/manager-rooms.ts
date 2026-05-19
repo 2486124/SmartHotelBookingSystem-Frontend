@@ -16,7 +16,6 @@ const PAGE_SIZE = 8;
   templateUrl: './manager-rooms.html',
   styleUrl: './manager-rooms.css'
 })
-
 export class ManagerRooms implements OnInit {
   private hotelSvc    = inject(HotelService);
   private fb          = inject(FormBuilder);
@@ -31,9 +30,11 @@ export class ManagerRooms implements OnInit {
   showModal  = signal(false);
   editingRoom = signal<RoomResponse | null>(null);
   saving         = signal(false);
+  pendingDelete  = signal<RoomResponse | null>(null);
+  deleting       = signal(false);
   uploadingImg   = signal(false);
   imgUploaded    = signal(false);
-  search    = '';   // plain property - compatible with ngModel / input binding
+  search    = '';   // plain property — compatible with ngModel / input binding
 
   occupied   = signal(0);
   available  = signal(0);
@@ -130,6 +131,33 @@ export class ManagerRooms implements OnInit {
       error: () => {
         this.saving.set(false);
         this.toast.error('Failed to save room. Please try again.');
+      }
+    });
+  }
+
+  confirmDelete(room: RoomResponse) {
+    this.pendingDelete.set(room);
+  }
+
+  cancelDelete() {
+    this.pendingDelete.set(null);
+  }
+
+  executeDelete() {
+    const room = this.pendingDelete();
+    if (!room) return;
+    this.deleting.set(true);
+    this.hotelSvc.deleteRoom(this.hotelId(), room.roomId).subscribe({
+      next: () => {
+        this.deleting.set(false);
+        this.pendingDelete.set(null);
+        this.loadRooms(this.hotelId());
+        this.toast.success(`Room "${room.type}" deleted successfully.`);
+      },
+      error: () => {
+        this.deleting.set(false);
+        this.pendingDelete.set(null);
+        this.toast.error('Failed to delete room. Please try again.');
       }
     });
   }

@@ -263,6 +263,7 @@
 .room-footer {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
   margin-top: auto;
   padding-top: 4px;
 }
@@ -283,6 +284,48 @@
   transition: background 0.15s;
 }
 .btn-edit:hover { background: #dde0f7; }
+
+.btn-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffebee;
+  color: #c62828;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.btn-delete:hover { background: #ffcdd2; }
+
+.btn-danger {
+  background: #c62828;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.btn-danger:hover { background: #b71c1c; }
+.btn-danger:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.delete-modal { max-width: 420px; }
+
+.delete-msg {
+  font-size: 0.9rem;
+  color: #4a4a6a;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.delete-msg strong { color: #1a1a2e; }
 
 /* ── Shared ────────────────────────────────────────────────── */
 .btn {
