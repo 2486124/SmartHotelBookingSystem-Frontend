@@ -17,7 +17,7 @@ const content: string = `export const environment = {
 };
 `;
 
-const targetPath: string = path.resolve(__dirname, '../src/environments/environment.prod.ts');
+const targetPath: string = path.resolve(process.cwd(), 'src/environments/environment.prod.ts');
 
 fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 fs.writeFileSync(targetPath, content, 'utf8');
